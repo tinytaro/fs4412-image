@@ -27,7 +27,7 @@
 1. 准备一张容量4G以上的SD或Micro SD卡。
 2. 下载烧写工具：[Etcher](https://www.balena.io/etcher)
 3. 将SD卡插入读卡器，连接到开发电脑。
-4. 使用烧写工具将下载的镜像文件烧写到SD卡中。
+4. 使用烧写工具将下载的镜像文件烧写到SD卡中。（需要以管理员身份运行）
     ![flash.gif](README.assets/flash.gif)
 5. 将SD卡插入FS4412的卡槽中，并将开发板上的OM拨码开关设置为从SD卡启动。
     ![switch](README.assets/switch.png)
@@ -91,3 +91,6 @@
       
     ```
     原因是系统时间没有同步，需要连上网络，等待ntpd同步时间后即可恢复正常。
+
+2. 镜像烧录时出现以下错误，一般是由于没有使用管理员身份运行烧写程序导致的。
+   ![image-20230404091947796](README.assets/image-20230404091947796.png)
