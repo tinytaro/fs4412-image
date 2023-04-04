@@ -1,13 +1,22 @@
 # FS4412开发板Debian系统镜像
 
 #### 镜像介绍
-使用debootstrap工具将Debian 11移植到FS4412开发板，主要用于项目实战授课和实训项目，支持二次定制。
+使用debootstrap工具将Debian 11移植到FS4412开发板，主要用于项目实战授课和实训项目，不同项目可以根据需要进行定制。
 
-#### 版本说明
+#### 目录和版本说明
 
-* debian11-fs4412-X-base.img.xz：基础镜像，只包含最基础的软件包，用于二次开发定制，不建议直接使用。
-* debian11-fs4412-X-dev.img.xz：开发环境镜像，在基础镜像中增加了C/C++本地编译工具链和常用开发工具。
-* debian11-fs4412-2.1-opencv.img.xz：opencv相关项目镜像，在开发环境镜像中增加了opencv的相关函数库。
+| 镜像文件                          | 说明                                                         |
+| --------------------------------- | ------------------------------------------------------------ |
+| debian11-fs4412-X-base.img.xz     | 基础镜像，只包含最基础的软件包，用于二次开发定制，不建议直接使用。 |
+| debian11-fs4412-X-dev.img.xz      | 开发环境镜像，在基础镜像中增加了C/C++本地编译工具链和常用开发工具。 |
+| debian11-fs4412-2.1-opencv.img.xz | opencv相关项目镜像，在开发环境镜像中增加了opencv的相关函数库。 |
+
+| 目录   | 说明                       |
+| ------ | -------------------------- |
+| kernel | 编译好的内核镜像和设备树   |
+| script | 镜像打包和安装脚本         |
+| source | 移植好的内核源码和配置文件 |
+| tools  | 镜像烧写和制作工具         |
 
 #### 下载地址
 百度网盘：https://pan.baidu.com/s/1DIvD2-4iiR-w8IeIGD8SvA?pwd=gbi1 
@@ -61,4 +70,24 @@
 
 #### 镜像定制
 
-TODO
+1. [编译内核及设备树](kernel.md)
+2. 增加软件包
+3. 制作镜像
+
+#### 常见问题
+
+1. 更新软件包时出现错误
+    ```bash
+    root@debian:~# apt update
+    Hit:1 http://mirrors.tuna.tsinghua.edu.cn/debian bullseye InRelease
+    Get:2 http://mirrors.tuna.tsinghua.edu.cn/debian bullseye-updates InRelease [44.1 kB]
+    Get:3 http://mirrors.tuna.tsinghua.edu.cn/debian bullseye-backports InRelease [49.0 kB]
+    Get:4 http://mirrors.tuna.tsinghua.edu.cn/debian-security bullseye-security InRelease [48.4 kB]
+    Reading package lists... Done
+    E: Release file for http://mirrors.tuna.tsinghua.edu.cn/debian/dists/bullseye/InRelease is not valid yet (invalid for another 131d 20h 48min 31s). Updates for this repository will not be applied.
+    E: Release file for http://mirrors.tuna.tsinghua.edu.cn/debian/dists/bullseye-updates/InRelease is not valid yet (invalid for another 235d 12h 57min 50s). Updates for this repository will not be applied.
+    E: Release file for http://mirrors.tuna.tsinghua.edu.cn/debian/dists/bullseye-backports/InRelease is not valid yet (invalid for another 235d 12h 57min 49s). Updates for this repository will not be applied.
+    E: Release file for http://mirrors.tuna.tsinghua.edu.cn/debian-security/dists/bullseye-security/InRelease is not valid yet (invalid for another 235d 8h 57min 29s). Updates for this repository will not be applied.
+      
+    ```
+    原因是系统时间没有同步，需要连上网络，等待ntpd同步时间后即可恢复正常。
