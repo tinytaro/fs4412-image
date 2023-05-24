@@ -1,3 +1,27 @@
+# 编译工具链
+
+由于开发板上运行的是完整的debian操作系统，因此可以直接在开发板上使用本地编译工具链：
+
+```bash
+$ gcc hello.c -o hello
+$ ./hello
+hello, world
+```
+
+也可以在虚拟机的Ubuntu中安装交叉编译工具链：
+
+```bash
+$ sudo apt install gcc-arm-linux-gnueabihf
+```
+
+在Ubuntu中交叉编译：
+
+```bash
+$ arm-linux-gnueabihf-gcc hello.c -o hello
+```
+
+然后将编译好的程序上传到开发板或者复制到SD卡的FAT分区中，再运行。
+
 # 读取温度传感器信息
 
 可以通过sysfs文件系统读取底板上的DS18B20温度传感器信息
