@@ -115,6 +115,22 @@ int main()
                     printf("key up released\n");
                 }
             }
+
+            if (ev.code == KEY_DOWN)
+            {
+                //判断按键状态
+                if (ev.value == 1)
+                {
+                    //按键按下
+                    printf("key down pressed\n");
+                }
+
+                if (ev.value == 0)
+                {
+                    //按键抬起
+                    printf("key down released\n");
+                }
+            }
         }
     }
 
