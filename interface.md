@@ -205,3 +205,60 @@ int main()
 }
 ```
 
+# UVC摄像头
+
+1. 列出系统中的视频设备，找到摄像头对应的设备文件`/dev/video1`
+
+```bash
+# v4l2-ctl --list-devices
+USB2.0 PC CAMERA: USB2.0 PC CAM (usb-5800d000.usbh-ehci-1.2):
+        /dev/video1
+        /dev/video2
+        /dev/media0
+```
+
+2. 查询摄像头支持的图像格式
+
+```bash
+# v4l2-ctl -d /dev/video1 --list-formats-ext
+ioctl: VIDIOC_ENUM_FMT
+        Type: Video Capture
+
+        [0]: 'YUYV' (YUYV 4:2:2)
+                Size: Discrete 640x480
+                        Interval: Discrete 0.033s (30.000 fps)
+                        Interval: Discrete 0.067s (15.000 fps)
+                Size: Discrete 352x288
+                        Interval: Discrete 0.033s (30.000 fps)
+                        Interval: Discrete 0.067s (15.000 fps)
+                Size: Discrete 320x240
+                        Interval: Discrete 0.033s (30.000 fps)
+                        Interval: Discrete 0.067s (15.000 fps)
+                Size: Discrete 176x144
+                        Interval: Discrete 0.033s (30.000 fps)
+                        Interval: Discrete 0.067s (15.000 fps)
+                Size: Discrete 160x120
+                        Interval: Discrete 0.033s (30.000 fps)
+                        Interval: Discrete 0.067s (15.000 fps)
+
+```
+
+3. 采集图像，并保存到`frame.yuv`文件中。
+
+```bash
+v4l2-ctl -d /dev/video1 --stream-mmap --stream-to=frame.yuv --stream-count=1 --set-fmt-video=width=640,height=480,pixelformat='YUYV'
+```
+
+--stream-mmap：使用内存映射方式获取图像数据
+
+--stream-to=frame.yuv：将图像数据保存到`frame.yuv`文件
+
+--stream-count=1：只采集一帧图像
+
+--set-fmt-video=width=640,height=480,pixelformat='YUYV'：
+
+设置图像格式：分辨率640x480，像素颜色数据使用YUV 422格式存储。
+
+4. 在Windows上使用`YUView`程序查看捕获的图像，需要配置图像大小以及YUV格式（YUYV 4:2:2 8-bit packed）。
+
+![image-20230725165906794](interface.assets/image-20230725165906794.png)

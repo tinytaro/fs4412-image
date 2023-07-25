@@ -32,7 +32,7 @@
 4. 使用烧写工具将下载的镜像文件烧写到SD卡中。（需要以管理员身份运行）
     ![flash.gif](README.assets/flash.gif)
 5. 将SD卡插入FS4412的卡槽中，并将开发板上的OM拨码开关设置为从SD卡启动。
-    ![switch](README.assets/switch.png)
+    <img src="README.assets/switch.png" alt="switch" style="zoom:50%;" />
 6. 打开开发板电源，从调试串口可以看到系统启动信息。
     ![boot](README.assets/boot.gif)
 #### 使用说明
@@ -43,7 +43,7 @@
 ##### 执行安装脚本
 系统第一次启动后，建议执行/root目录中的`setup.sh`脚本，扩大根文件系统到整个SD卡，并生成机器ID。否则，可能出现根文件系统空间不足和IP地址冲突等问题。
 
-安装完成后，开发板会自动关机，但不会自动关闭电源。出现`reboot: System halted`信息后，可以关闭开发板电源。
+安装完成后，开发板会自动关机，但不会自动关闭电源。出现`reboot: System halted`信息并且LED2（心跳灯）不再闪烁后，可以关闭开发板电源。
 
 ![setup](README.assets/setup.gif)
 
@@ -69,7 +69,7 @@
 
 ##### 访问SD卡FAT分区中的文件
 - 在windows中可以直接访问SD卡FAT分区中的内容。
-- 在开发板上，SD卡FAT分区会挂载到/mnt目录。
+- 在开发板上，当切换到/mnt目录后，会自动将SD卡的FAT分区（第一个分区）挂载到/mnt目录。
 
 ##### 安装软件
 本系统是完整的Debian操作系统，可以使用`apt install 软件包`的方式安装Debian 11所有软件包。
@@ -78,13 +78,19 @@
 
 直接关闭电源有可能造成文件丢失或损坏，建议先按下拨码开关旁边的power按键关机，等LED2（心跳灯）不再闪烁后，再关闭电源。
 
-![switch](README.assets/switch.png)
+<img src="README.assets/switch.png" alt="switch" style="zoom:50%;" />
 
 也可以使用以下命令关机：
 
 ```bash
 # shutdown -H now
 ```
+
+##### 使用串口传输文件
+
+可以使用`rz`和`sz`命令，通过串口zmodem协议传输文件。
+
+<img src="README.assets/image-20230725164522249.png" alt="image-20230725164522249" style="zoom:50%;" />
 
 ##### 驱动外设
 
@@ -93,15 +99,27 @@
 - 蜂鸣器
 - 温度传感器
 - IMU
+- UVC摄像头
 
 [使用方法](interface.md)
 
 #### 定制镜像
 
 1. [编译内核及设备树](kernel.md)
-2. 使用`apt`命令增加软件包
+
+2. 使用`apt`命令增加软件包，或修改软件配置。
+
 3. 制作镜像
 
+   1. 按power键将开发板关机
+
+   2. 取出SD卡，并在PC机上使用`win32diskimager`程序将SD卡中的分区导出到镜像文件（扩展名为img）。
+
+      <img src="README.assets/image-20230725163455664.png" alt="image-20230725163455664" style="zoom:50%;" />
+
+      需要勾选`仅读取已分配分区`选项。
+
+   3. 将镜像压缩为xz文件，烧写工具可以自动解压缩。
 
 
 #### 常见问题

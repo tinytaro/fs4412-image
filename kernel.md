@@ -1,6 +1,8 @@
 ## 编译内核
 
-1. 安装依赖软件包
+由于开发板性能限制，内核编译建议在虚拟机上进行。
+
+1. 在Ubuntu中安装依赖软件包
 
 ```bash
 $ sudo apt install build-essential gcc-arm-linux-gnueabihf flex bison u-boot-tools libssl-dev
